@@ -23,7 +23,6 @@ class _MyHomeState extends State<MyHome> {
   @override
   Widget build(BuildContext context) {
     final pengguna = Provider.of<User>(context);
-    print(pengguna.uid);
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -36,7 +35,8 @@ class _MyHomeState extends State<MyHome> {
           BottomNavigationBarItem(icon: Icon(Icons.help), title: Text('Status'))
         ],
         currentIndex: selectedIndex,
-        fixedColor: Colors.black,
+        backgroundColor: Colors.teal[400],
+        fixedColor: Colors.white,
         onTap: onItemTapped,
       ),
     );

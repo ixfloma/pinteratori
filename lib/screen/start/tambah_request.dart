@@ -55,6 +55,7 @@ class _RequestRuanganState extends State<RequestRuangan> {
       setState(() {
         if(kapan == 'start'){
           startDate = picked;
+          endDate = picked;
         } else
         if(kapan == 'end'){
           endDate = picked;
@@ -95,8 +96,8 @@ class _RequestRuanganState extends State<RequestRuangan> {
       'kelasTuju': selected.roomNumber,
       'tglPinjam': tglPinjam,
       'tglSelesai': tglSelesai,
-      'waktuMulai': startTime.hour.toString()+':'+startTime.minute.toString(),
-      'waktuSelesai': endTime.hour.toString()+':'+endTime.minute.toString(),
+      'waktuMulai': formatTime(startTime),
+      'waktuSelesai': formatTime(endTime),
       'status': 'menunggu',
       'createdAt':Timestamp.now(),
       'createdBy': uid,
@@ -105,6 +106,13 @@ class _RequestRuanganState extends State<RequestRuangan> {
 
     Firestore.instance.collection('request').document(id).setData(data);
     Navigator.pop(context);
+  }
+
+  String formatTime(TimeOfDay timeOfDay){
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    final format  = DateFormat.Hm();
+    return format.format(dt);
   }
 
   Column buildField({
@@ -297,7 +305,7 @@ class _RequestRuanganState extends State<RequestRuangan> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                Text(startTime.hour.toString()+':'+startTime.minute.toString(), style: TextStyle(fontSize: 20.0)),
+                                Text(formatTime(startTime), style: TextStyle(fontSize: 20.0)),
                               ],
                             ),
                           ),
@@ -329,7 +337,7 @@ class _RequestRuanganState extends State<RequestRuangan> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                Text(endTime.hour.toString()+':'+endTime.minute.toString(), style: TextStyle(fontSize: 20.0)),
+                                Text(formatTime(endTime), style: TextStyle(fontSize: 20.0)),
                               ],
                             ),
                           ),
