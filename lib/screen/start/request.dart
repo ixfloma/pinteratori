@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinteratori/models/user.dart';
 import 'package:pinteratori/models/requmod.dart';
 import 'package:pinteratori/screen/start/tambah_request.dart';
@@ -27,22 +28,73 @@ class _RequestPageState extends State<RequestPage> with TickerProviderStateMixin
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: <Widget>[
-          FlatButton(
-            onPressed: (){
-              Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                builder: (context) => RequestRuangan(),
-                fullscreenDialog: true,
-              ));
+          StreamBuilder(
+            stream: Firestore.instance.collection('user').document(pengguna.uid).snapshots(),
+            builder: (context, sp){
+              if(!sp.hasData){
+                return FlatButton(
+                  onPressed: (){
+                    Fluttertoast.showToast(msg: 'Tunggu',
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      toastLength: Toast.LENGTH_SHORT
+                    );
+                  },
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.add, color: Colors.black),
+                        Text('Baru', style: TextStyle(color: Colors.black),)
+                      ],
+                    )
+                  )
+                );
+              } else {
+                if(sp.data['displayName'] == '' ||
+                    sp.data['nim'] == '' ||
+                    sp.data['organisasi'] == ''){
+                  return FlatButton(
+                    onPressed: (){
+                      Fluttertoast.showToast(msg: 'Harap melengkapi profil terlebih dahulu',
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        toastLength: Toast.LENGTH_SHORT
+                      );
+                    },
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.add, color: Colors.black),
+                          Text('Baru', style: TextStyle(color: Colors.black),)
+                        ],
+                      )
+                    )
+                  );
+                } else {
+                  return FlatButton(
+                    onPressed: (){
+                      Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                        builder: (context) => RequestRuangan(),
+                        fullscreenDialog: true,
+                      ));
+                    },
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.add, color: Colors.black),
+                          Text('Baru', style: TextStyle(color: Colors.black),)
+                        ],
+                      )
+                    )
+                  );
+                }
+              }
             },
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.add, color: Colors.black),
-                  Text('Baru', style: TextStyle(color: Colors.black),)
-                ],
-              )
-            )
           )
         ],
       ),

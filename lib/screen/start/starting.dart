@@ -32,7 +32,7 @@ class _MyHomeState extends State<MyHome> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.collections_bookmark), title: Text('Request')),
-          BottomNavigationBarItem(icon: Icon(Icons.help), title: Text('Status'))
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle), title: Text('Profile')),
         ],
         currentIndex: selectedIndex,
         backgroundColor: Colors.teal[400],

@@ -12,6 +12,8 @@ class DatabaseService {
       'email': email,
       'uid': uid,
       'nim': '',
+      'role': 'Mahasiswa',
+      'organisasi': ''
     });
   }
 

@@ -12,12 +12,12 @@ class RequestRuangan extends StatefulWidget {
 }
 
 class _RequestRuanganState extends State<RequestRuangan> {
-  TextEditingController requestorCtrl = TextEditingController(text:'');
+  String name;
   DateTime startDate = new DateTime.now();
   DateTime endDate = new DateTime.now();
   TimeOfDay endTime = new TimeOfDay.now();
   TimeOfDay startTime = new TimeOfDay.now();
-  bool isNotValidForm = true;
+  // bool isNotValidForm = false;
   RoomModel selected;
   List<RoomModel> dataKelas = <RoomModel>[
     new RoomModel(isSelected: true, roomNumber: '301'),
@@ -28,17 +28,13 @@ class _RequestRuanganState extends State<RequestRuangan> {
     new RoomModel(isSelected: true, roomNumber: '403'),
     new RoomModel(isSelected: true, roomNumber: '402'),
   ];
-  @override
-  void initState(){
-    super.initState();
-    // dataKelas.add(new RoomModel(isSelected: true, roomNumber: '301'));
-    // dataKelas.add(new RoomModel(isSelected: false, roomNumber: '302'));
-    // dataKelas.add(new RoomModel(isSelected: false, roomNumber: '303'));
-    // dataKelas.add(new RoomModel(isSelected: false, roomNumber: '304'));
-    // dataKelas.add(new RoomModel(isSelected: false, roomNumber: '401'));
-    // dataKelas.add(new RoomModel(isSelected: false, roomNumber: '402'));
-    // dataKelas.add(new RoomModel(isSelected: false, roomNumber: '403'));
-  }
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   WidgetsBinding.instance
+  //       .addPostFrameCallback((_) => checkExists(context));
+  // }
+
 
   Future<Null> _selectDate(BuildContext context, String kapan) async {
     final DateTime picked = await showDatePicker(
@@ -87,12 +83,12 @@ class _RequestRuanganState extends State<RequestRuangan> {
   sendData(String uid){
     var uuid = new Uuid();
     String id = uuid.v4();
-    List pemohon = requestorCtrl.text.split(' ');
+    List pemohon = name.split(' ');
     String tglPinjam = new DateFormat.yMMMMEEEEd().format(startDate);
     String tglSelesai = new DateFormat.yMMMMEEEEd().format(endDate);
     var data = {
       'id': id,
-      'pemohon': requestorCtrl.text,
+      'pemohon': name,
       'kelasTuju': selected.roomNumber,
       'tglPinjam': tglPinjam,
       'tglSelesai': tglSelesai,
@@ -115,54 +111,54 @@ class _RequestRuanganState extends State<RequestRuangan> {
     return format.format(dt);
   }
 
-  Column buildField({
-      @required String labelName,
-      @required String placeholder,
-      Widget prefix,
-      double fontSize = 14.0,
-      TextInputType keyboardType = TextInputType.text,
-      onChanged,
-      controller = null
-    }){
-      return Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(labelName,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black26,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-              ],
-            ),
-          ),
-          TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: placeholder,
-              prefix: prefix,
-              contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 1.0),
-              border: null,
-            ),
-            style: TextStyle(fontSize: 20, color: Colors.black),
-            keyboardType: keyboardType,
-            autocorrect: false,
-            onChanged: (text) {
-              setState(() {
-                isNotValidForm = (
-                  requestorCtrl.text == ''
-                ) ? true : false;
-              });
-            },
-          ),
-        ],
-      );
-    }
+  // Column buildField({
+  //     @required String labelName,
+  //     @required String placeholder,
+  //     Widget prefix,
+  //     double fontSize = 14.0,
+  //     TextInputType keyboardType = TextInputType.text,
+  //     onChanged,
+  //     controller = null
+  //   }){
+  //     return Column(
+  //       children: <Widget>[
+  //         Padding(
+  //           padding: const EdgeInsets.only(bottom: 5.0),
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             children: <Widget>[
+  //               Text(labelName,
+  //                 style: TextStyle(
+  //                   fontSize: 14.0,
+  //                   color: Colors.black26,
+  //                   fontWeight: FontWeight.bold
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         TextField(
+  //           controller: controller,
+  //           decoration: InputDecoration(
+  //             hintText: placeholder,
+  //             prefix: prefix,
+  //             contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 1.0),
+  //             border: null,
+  //           ),
+  //           style: TextStyle(fontSize: 20, color: Colors.black),
+  //           keyboardType: keyboardType,
+  //           autocorrect: false,
+  //           onChanged: (text) {
+  //             setState(() {
+  //               isNotValidForm = (
+  //                 requestorCtrl.text == ''
+  //               ) ? true : false;
+  //             });
+  //           },
+  //         ),
+  //       ],
+  //     );
+  //   }
 
   @override
   Widget build(BuildContext context) {
@@ -183,14 +179,14 @@ class _RequestRuanganState extends State<RequestRuangan> {
         actions: <Widget>[
           FlatButton.icon(
             onPressed: (){
-              if(requestorCtrl.text == ''){
-                Fluttertoast.showToast(msg: 'Harap mengisi nama/organisasi!',
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                toastLength: Toast.LENGTH_SHORT
-                );
-              } else
+              // if(isNotValidForm){
+              //   Fluttertoast.showToast(msg: 'Harap mengisi nama/organisasi!',
+              //   gravity: ToastGravity.BOTTOM,
+              //   backgroundColor: Colors.red,
+              //   textColor: Colors.white,
+              //   toastLength: Toast.LENGTH_SHORT
+              //   );
+              // } else
               if(selected == null){
                 Fluttertoast.showToast(msg: 'Harap mengisi lab yang akan dipinjam!',
                 gravity: ToastGravity.BOTTOM,
@@ -216,7 +212,63 @@ class _RequestRuanganState extends State<RequestRuangan> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: buildField(placeholder: 'Awanama', labelName: 'NAMA PEMOHON', controller: requestorCtrl)
+                  child: StreamBuilder(
+                    stream: Firestore.instance.collection('user').document(pengguna.uid).snapshots(),
+                    builder: (context, sp){
+                      if(!sp.hasData){
+                        return Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text('NAMA PEMINJAM', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold, color: Colors.black26)),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top:10),
+                              child: Container(
+                                constraints: BoxConstraints(minHeight: 40),
+                                // decoration: BoxDecoration(color: Colors.teal),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Text('Loading...', style: TextStyle(fontSize: 20.0)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        name = sp.data['displayName'];
+                        return Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text('NAMA PEMINJAM', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold, color: Colors.black26)),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top:10),
+                              child: Container(
+                                constraints: BoxConstraints(minHeight: 40),
+                                // decoration: BoxDecoration(color: Colors.teal),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Text(sp.data['displayName'], style: TextStyle(fontSize: 20.0)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    }
+                  )
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),

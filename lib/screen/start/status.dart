@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinteratori/screen/service/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pinteratori/screen/start/edit_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:pinteratori/models/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 class StatusPage extends StatelessWidget {
   final AuthService auth = new AuthService();
   Future<String> getCurrentUserId() async{
@@ -26,6 +26,7 @@ class StatusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final pengguna = Provider.of<User>(context);
     final Size screen = MediaQuery.of(context).size;
+    final AuthService _auth = AuthService();
     return Scaffold(
       backgroundColor: Colors.teal[100],
       appBar: AppBar(
@@ -33,14 +34,59 @@ class StatusPage extends StatelessWidget {
         elevation: 0,
         title: Text('Profile', style: TextStyle(color: Colors.black),),
         actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              print('more');
-            },
-            child: Center(
-              child: Icon(Icons.more_vert),
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: Material(
+              color: Colors.transparent,
+              elevation: 0,
+              shape: CircleBorder(),
+              clipBehavior: Clip.hardEdge,
+              child: Ink(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    _auth.signOutGoogle();
+                  },
+                  splashColor: Colors.teal,
+                  child: Center(
+                    child: Icon(Icons.exit_to_app, color: Colors.black),
+                  ),
+                ),
+              ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: Material(
+              color: Colors.transparent,
+              elevation: 0,
+              shape: CircleBorder(),
+              clipBehavior: Clip.hardEdge,
+              child: Ink(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                      builder: (context) => EditProfile(),
+                      fullscreenDialog: true,
+                    ));
+                  },
+                  splashColor: Colors.teal,
+                  child: Center(
+                    child: Icon(Icons.create, color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       body: SafeArea(
