@@ -22,81 +22,17 @@ class _RequestPageState extends State<RequestPage> with TickerProviderStateMixin
     final pengguna = Provider.of<User>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Request', style: TextStyle(color: Colors.black),),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: <Widget>[
-          StreamBuilder(
-            stream: Firestore.instance.collection('user').document(pengguna.uid).snapshots(),
-            builder: (context, sp){
-              if(!sp.hasData){
-                return FlatButton(
-                  onPressed: (){
-                    Fluttertoast.showToast(msg: 'Tunggu',
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      toastLength: Toast.LENGTH_SHORT
-                    );
-                  },
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.add, color: Colors.black),
-                        Text('Baru', style: TextStyle(color: Colors.black),)
-                      ],
-                    )
-                  )
-                );
-              } else {
-                if(sp.data['displayName'] == '' ||
-                    sp.data['nim'] == '' ||
-                    sp.data['organisasi'] == ''){
-                  return FlatButton(
-                    onPressed: (){
-                      Fluttertoast.showToast(msg: 'Harap melengkapi profil terlebih dahulu',
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        toastLength: Toast.LENGTH_SHORT
-                      );
-                    },
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.add, color: Colors.black),
-                          Text('Baru', style: TextStyle(color: Colors.black),)
-                        ],
-                      )
-                    )
-                  );
-                } else {
-                  return FlatButton(
-                    onPressed: (){
-                      Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                        builder: (context) => RequestRuangan(),
-                        fullscreenDialog: true,
-                      ));
-                    },
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.add, color: Colors.black),
-                          Text('Baru', style: TextStyle(color: Colors.black),)
-                        ],
-                      )
-                    )
-                  );
-                }
-              }
-            },
-          )
-        ],
+        leading: FlatButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.keyboard_backspace, color: Colors.black,),
+        ),
       ),
       body: SafeArea(
         top: false,

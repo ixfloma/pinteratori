@@ -28,7 +28,7 @@ class StatusPage extends StatelessWidget {
     final Size screen = MediaQuery.of(context).size;
     final AuthService _auth = AuthService();
     return Scaffold(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -120,7 +120,7 @@ class StatusPage extends StatelessWidget {
                                   ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white,
+                                    color: Colors.lightBlue,
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(8),
@@ -138,7 +138,7 @@ class StatusPage extends StatelessWidget {
                                                     snapshot.data['displayName'], 
                                                     style: TextStyle(
                                                       fontSize: 20.0, 
-                                                      color: Colors.black,
+                                                      color: Colors.white,
                                                       fontWeight: FontWeight.bold
                                                     )
                                                   ),
@@ -158,7 +158,7 @@ class StatusPage extends StatelessWidget {
                                                     snapshot.data['role'], 
                                                     style: TextStyle(
                                                       fontSize: 19.0, 
-                                                      color: Colors.black,
+                                                      color: Colors.white,
                                                       fontWeight: FontWeight.w400
                                                     )
                                                   ),
@@ -179,10 +179,10 @@ class StatusPage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         fit: BoxFit.fill,
-                                        image: NetworkImage('https://i.picsum.photos/id/141/100/100.jpg')
+                                        image: NetworkImage('https://picsum.photos/100')
                                       ),
                                       shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.white, width: 5)
+                                      border: Border.all(color: Colors.lightBlue, width: 5)
                                     ),
                                   ),
                                 )
@@ -193,7 +193,7 @@ class StatusPage extends StatelessWidget {
                             margin: EdgeInsets.only(top:10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
+                              color: Colors.lightBlue,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -209,7 +209,7 @@ class StatusPage extends StatelessWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Center(
-                                              child: Icon(Icons.school, size: 0.1 * screen.width,),
+                                              child: Icon(Icons.school, size: 0.1 * screen.width, color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -226,7 +226,7 @@ class StatusPage extends StatelessWidget {
                                                     children: <Widget>[
                                                       Text('NIM', 
                                                         style: TextStyle(
-                                                          color: Colors.black, 
+                                                          color: Colors.white, 
                                                           fontSize: 19,
                                                           fontWeight: FontWeight.w300
                                                         ),
@@ -238,7 +238,7 @@ class StatusPage extends StatelessWidget {
                                                     children: <Widget>[
                                                       Text(snapshot.data['nim'], 
                                                         style: TextStyle(
-                                                          color: Colors.black, 
+                                                          color: Colors.white, 
                                                           fontSize: 19,
                                                           fontWeight: FontWeight.w600
                                                         ),
@@ -262,7 +262,7 @@ class StatusPage extends StatelessWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Center(
-                                              child: Icon(Icons.mail, size: 0.1 * screen.width,),
+                                              child: Icon(Icons.mail, size: 0.1 * screen.width, color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -279,7 +279,7 @@ class StatusPage extends StatelessWidget {
                                                     children: <Widget>[
                                                       Text('E-Mail', 
                                                         style: TextStyle(
-                                                          color: Colors.black, 
+                                                          color: Colors.white, 
                                                           fontSize: 19,
                                                           fontWeight: FontWeight.w300
                                                         ),
@@ -294,7 +294,7 @@ class StatusPage extends StatelessWidget {
                                                         Expanded(
                                                           child: Text(snapshot.data['email'],
                                                             style: TextStyle(
-                                                              color: Colors.black, 
+                                                              color: Colors.white, 
                                                               fontSize: 19,
                                                               fontWeight: FontWeight.w600
                                                             ),
@@ -322,7 +322,7 @@ class StatusPage extends StatelessWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Center(
-                                              child: Icon(Icons.group, size: 0.1 * screen.width,),
+                                              child: Icon(Icons.group, size: 0.1 * screen.width, color: Colors.white,),
                                             ),
                                           ),
                                         ),
@@ -339,7 +339,7 @@ class StatusPage extends StatelessWidget {
                                                     children: <Widget>[
                                                       Text('Organisasi', 
                                                         style: TextStyle(
-                                                          color: Colors.black, 
+                                                          color: Colors.white, 
                                                           fontSize: 19,
                                                           fontWeight: FontWeight.w300
                                                         ),
@@ -354,7 +354,7 @@ class StatusPage extends StatelessWidget {
                                                         Expanded(
                                                           child: Text(snapshot.data['organisasi'],
                                                             style: TextStyle(
-                                                              color: Colors.black, 
+                                                              color: Colors.white, 
                                                               fontSize: 19,
                                                               fontWeight: FontWeight.w600
                                                             ),
