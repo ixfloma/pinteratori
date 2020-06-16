@@ -102,7 +102,11 @@ class StatusPage extends StatelessWidget {
                     if(!snapshot.hasData){
                       return Container(
                         child: Center(
-                          child: Text('//Loading...//', style: TextStyle(color: Colors.black, fontSize: 20),),
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            child: CircularProgressIndicator(),
+                          )
                         ),
                       );
                     } else {

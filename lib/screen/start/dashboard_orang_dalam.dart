@@ -50,6 +50,18 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('ADMINISTRATOR PINTERATORI',
+                          style:TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Column(
@@ -66,59 +78,18 @@ class _DashboardState extends State<Dashboard> {
                                   shape: BoxShape.circle,
                                   color: Colors.teal,
                                 ),
-                                child: StreamBuilder(
-                                  stream: Firestore.instance.collection('user').document(pengguna.uid).snapshots(),
-                                  builder: (context, sp){
-                                    if(!sp.hasData){
-                                      return InkResponse(
-                                        highlightShape: BoxShape.circle,
-                                        containedInkWell: true,
-                                        splashColor: Colors.white,
-                                        onTap: (){
-                                          Fluttertoast.showToast(msg: 'Tunggu',
-                                            gravity: ToastGravity.BOTTOM,
-                                            backgroundColor: Colors.red,
-                                            textColor: Colors.white,
-                                            toastLength: Toast.LENGTH_SHORT
-                                          );
-                                        },
-                                        child: Icon(Icons.add, size: 40, color: Colors.white,),
-                                      );
-                                    } else {
-                                      if(sp.data['displayName'] == '' ||
-                                          sp.data['nim'] == '' ||
-                                          sp.data['organisasi'] == ''){
-                                        return InkResponse(
-                                          highlightShape: BoxShape.circle,
-                                          containedInkWell: true,
-                                          splashColor: Colors.white,
-                                          onTap: (){
-                                            Fluttertoast.showToast(msg: 'Harap melengkapi profil terlebih dahulu',
-                                              gravity: ToastGravity.BOTTOM,
-                                              backgroundColor: Colors.red,
-                                              textColor: Colors.white,
-                                              toastLength: Toast.LENGTH_SHORT
-                                            );
-                                          },
-                                          child: Icon(Icons.add, size: 40, color: Colors.white,),
-                                        );
-                                      } else {
-                                        return InkResponse(
-                                          highlightShape: BoxShape.circle,
-                                          containedInkWell: true,
-                                          splashColor: Colors.white,
-                                          onTap: (){
-                                            Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                              builder: (context) => RequestRuangan(),
-                                              fullscreenDialog: true,
-                                            ));
-                                          },
-                                          child: Icon(Icons.add, size: 40, color: Colors.white,),
-                                        );
-                                      }
-                                    }
+                                child: InkResponse(
+                                  highlightShape: BoxShape.circle,
+                                  containedInkWell: true,
+                                  splashColor: Colors.white,
+                                  onTap: (){
+                                    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                      builder: (context) => RequestPage(filter: 'menunggu'),
+                                      fullscreenDialog: true,
+                                    ));
                                   },
-                                )
+                                  child: Icon(Icons.list, size: 35, color: Colors.white,),
+                                ),
                               ),
                             ),
                             Padding(
@@ -126,7 +97,7 @@ class _DashboardState extends State<Dashboard> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('Request Baru',
+                                  Text('Menunggu',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15
@@ -157,7 +128,7 @@ class _DashboardState extends State<Dashboard> {
                                   splashColor: Colors.white,
                                   onTap: (){
                                     Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                      builder: (context) => RequestPage(filter: 'none'),
+                                      builder: (context) => RequestPage(filter: 'diterima'),
                                       fullscreenDialog: true,
                                     ));
                                   },
@@ -170,7 +141,51 @@ class _DashboardState extends State<Dashboard> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('Daftar Request',
+                                  Text('Diterima',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15
+                                    ),
+                                  )
+                                ],
+                                ),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Material(
+                              shape: CircleBorder(),
+                              clipBehavior: Clip.hardEdge,
+                              elevation: 0,
+                              color: Colors.transparent,
+                              child: Ink(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.teal,
+                                ),
+                                child: InkResponse(
+                                  highlightShape: BoxShape.circle,
+                                  containedInkWell: true,
+                                  splashColor: Colors.white,
+                                  onTap: (){
+                                    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                      builder: (context) => RequestPage(filter: 'ditolak'),
+                                      fullscreenDialog: true,
+                                    ));
+                                  },
+                                  child: Icon(Icons.list, size: 35, color: Colors.white,),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('Ditolak',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15
@@ -192,7 +207,7 @@ class _DashboardState extends State<Dashboard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Recent Request',
+                  Text('Newest Request',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.black45
@@ -204,7 +219,7 @@ class _DashboardState extends State<Dashboard> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: StreamBuilder(
-                stream: getRequ(pengguna.uid, ((size.height/2) / 100).floor()),
+                stream: getRequ(pengguna.uid, ((size.height/2) / 80).floor()),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
                   if(!snapshot.hasData){
                     return Container(
@@ -259,7 +274,7 @@ class _DashboardState extends State<Dashboard> {
         child: InkWell(
           onTap: () {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                builder: (context) => DetailRequest(requmod: requ, roleFilter: 'none',),
+                builder: (context) => DetailRequest(requmod: requ, roleFilter: 'menunggu',),
                 fullscreenDialog: true,
               ));
           },
@@ -328,13 +343,12 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ),
-
       ),
     );
   }
 
   Stream<QuerySnapshot> getRequ(String uid, int length){
-    return Firestore.instance.collection('request').where('createdBy', isEqualTo: uid).orderBy('createdAt', descending: true).limit(length).snapshots();
+    return Firestore.instance.collection('request').where('status', isEqualTo: 'menunggu').orderBy('createdAt', descending: true).limit(length).snapshots();
   }
 
   int getLength(double height){

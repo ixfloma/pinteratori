@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pinteratori/models/requmod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailRequest extends StatefulWidget {
   final Requmod requmod;
+  final String roleFilter;
 
-  DetailRequest({Key key, @required this.requmod}) : super(key: key);
+  DetailRequest({Key key, @required this.requmod, @required this.roleFilter}) : super(key: key);
 
   @override
   _DetailRequestState createState() => _DetailRequestState();
@@ -15,6 +17,7 @@ class DetailRequest extends StatefulWidget {
 class _DetailRequestState extends State<DetailRequest> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -238,6 +241,87 @@ class _DetailRequestState extends State<DetailRequest> {
                           ],
                         )
                       ),
+                      (widget.roleFilter == 'menunggu') ?
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              height: 40,
+                              width: screenWidth * 0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(width: 1, color: Colors.teal)
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  splashColor: Colors.teal,
+                                  onTap: (){
+                                    try{
+                                      Firestore.instance.collection('request').document(widget.requmod.id).updateData({'status':'diterima'});
+                                    } catch(err){
+                                      print(err.toString());
+                                    }
+                                    print('Accepted');
+                                    Fluttertoast.showToast(msg: 'Permohonan Diterima',
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.teal,
+                                      textColor: Colors.white,
+                                      toastLength: Toast.LENGTH_SHORT
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  child: Center(
+                                    child: Text('TERIMA',
+                                      style: TextStyle(
+                                        color: Colors.teal,
+                                      )
+                                    ),
+                                  ),
+                                ),
+                              ),                              
+                            ),
+                            Container(
+                              height: 40,
+                              width: screenWidth * 0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(width: 1, color: Colors.red[800])
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  splashColor: Colors.red[800],
+                                  onTap: (){
+                                    try{
+                                      Firestore.instance.collection('request').document(widget.requmod.id).updateData({'status':'ditolak'});
+                                    } catch(err){
+                                      print(err.toString());
+                                    }
+                                    print('Denied');
+                                    Fluttertoast.showToast(msg: 'Permohonan Ditolak',
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.red[800],
+                                      textColor: Colors.white,
+                                      toastLength: Toast.LENGTH_SHORT
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  child: Center(
+                                    child: Text('TOLAK',
+                                      style: TextStyle(
+                                        color: Colors.red[800],
+                                      )
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ) : Container()
                     ],
                   ); 
                 }

@@ -30,7 +30,7 @@ class _SignInState extends State<SignIn> {
                       Container(
                         height: 100,
                         width: 100,
-                        child: Image.asset('assets/image/logoupn.png'),
+                        child: Image.asset('assets/image/icon_launcher.png'),
                       ),
                     ],
                   ),

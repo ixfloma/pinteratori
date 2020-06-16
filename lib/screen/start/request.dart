@@ -8,6 +8,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pinteratori/screen/start/detailrequ.dart';
 
 class RequestPage extends StatefulWidget {
+  final String filter;
+
+  RequestPage({Key key, @required this.filter}) : super(key: key);
+
+
   @override
   _RequestPageState createState() => _RequestPageState();
 }
@@ -45,7 +50,11 @@ class _RequestPageState extends State<RequestPage> with TickerProviderStateMixin
                   if(!snapshot.hasData){
                     return Container(
                       child: Center(
-                        child: Text('//Loading...//', style: TextStyle(color: Colors.black, fontSize: 20),),
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator(),
+                        )
                       ),
                     );
                   } else {
@@ -102,7 +111,7 @@ class _RequestPageState extends State<RequestPage> with TickerProviderStateMixin
         child: InkWell(
           onTap: () {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                builder: (context) => DetailRequest(requmod: requ,),
+                builder: (context) => DetailRequest(requmod: requ, roleFilter: widget.filter,),
                 fullscreenDialog: true,
               ));
           },
@@ -176,6 +185,10 @@ class _RequestPageState extends State<RequestPage> with TickerProviderStateMixin
   }
 
   Stream<QuerySnapshot> getRequ(String uid){
-    return Firestore.instance.collection('request').where('createdBy', isEqualTo: uid).orderBy('createdAt', descending: true).snapshots();
+    if(widget.filter == 'none'){
+      return Firestore.instance.collection('request').where('createdBy', isEqualTo: uid).orderBy('createdAt', descending: true).snapshots();
+    } else {
+      return Firestore.instance.collection('request').where('status', isEqualTo: widget.filter).orderBy('createdAt', descending: true).snapshots();
+    }
   }
 }
